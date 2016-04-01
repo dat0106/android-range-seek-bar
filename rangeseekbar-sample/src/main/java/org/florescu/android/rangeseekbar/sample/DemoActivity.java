@@ -23,6 +23,9 @@ import android.widget.LinearLayout;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DemoActivity extends Activity {
 
     /**
@@ -37,12 +40,16 @@ public class DemoActivity extends Activity {
         RangeSeekBar<Integer> rangeSeekBar = new RangeSeekBar<Integer>(this);
         // Set the range
         rangeSeekBar.setRangeValues(15, 90);
+        List<Integer[]> customeBar  = new ArrayList<>();
+        customeBar.add(new Integer[]{30, 45});
+        rangeSeekBar.setCustomBar(customeBar);
         rangeSeekBar.setSelectedMinValue(20);
         rangeSeekBar.setSelectedMaxValue(88);
 
         // Add to layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.seekbar_placeholder);
         layout.addView(rangeSeekBar);
+
 
         // Seek bar for which we will set text color in code
         RangeSeekBar rangeSeekBarTextColorWithCode = (RangeSeekBar) findViewById(R.id.rangeSeekBarTextColorWithCode);

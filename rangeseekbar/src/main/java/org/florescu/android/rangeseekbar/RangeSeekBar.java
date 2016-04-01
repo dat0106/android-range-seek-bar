@@ -44,6 +44,8 @@ import org.florescu.android.util.BitmapUtil;
 import org.florescu.android.util.PixelUtil;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Widget that lets users select a minimum and maximum value on a given numerical range.
@@ -59,6 +61,8 @@ import java.math.BigDecimal;
  * @author Michael Keppler (bananeweizen@gmx.de)
  */
 public class RangeSeekBar<T extends Number> extends ImageView {
+
+    private List<T[]> customBar = new ArrayList<>();
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
      */
@@ -613,11 +617,17 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 mDefaultColor : // default values
                 mActiveColor;   // non default, filter is active
 
+        paint.setColor(colorToUseForButtonsAndHighlightedLine);
+
+        for(T[] i : customBar){
+            mRect.left = normalizedToScreen(valueToNormalized(i[0]));
+            mRect.right = normalizedToScreen(valueToNormalized(i[1]));
+            canvas.drawRect(mRect, paint);
+        }
         // draw seek bar active range line
         mRect.left = normalizedToScreen(normalizedMinValue);
         mRect.right = normalizedToScreen(normalizedMaxValue);
 
-        paint.setColor(colorToUseForButtonsAndHighlightedLine);
         canvas.drawRect(mRect, paint);
 
         // draw minimum thumb (& shadow if requested) if not a single thumb control
@@ -821,6 +831,10 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             double result = (screenCoord - padding) / (width - 2 * padding);
             return Math.min(1d, Math.max(0d, result));
         }
+    }
+
+    public void setCustomBar(List<T[]> customBar) {
+        this.customBar = customBar;
     }
 
     /**
