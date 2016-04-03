@@ -169,7 +169,15 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             return (T) Integer.valueOf(a.getInteger(attribute, defaultValue));
         }
     }
+    public interface FormatNumber{
+        String formatNumber(Number number);
+    }
 
+    FormatNumber formatNumber;
+    public void setFormatNumber(FormatNumber formatNumber){
+        this.formatNumber =  formatNumber;
+
+    }
     private void init(Context context, AttributeSet attrs) {
         float barHeight;
         int thumbNormal = R.drawable.seek_thumb_normal;
@@ -596,8 +604,15 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         if (mShowLabels) {
             // draw min and max labels
-            String minLabel = getContext().getString(R.string.demo_min_label);
-            String maxLabel = getContext().getString(R.string.demo_max_label);
+            String minLabel;
+            String maxLabel;
+            if(formatNumber != null) {
+                minLabel =formatNumber.formatNumber(absoluteMinValue);
+                maxLabel = formatNumber.formatNumber(absoluteMaxValue);
+            } else {
+                minLabel = getContext().getString(R.string.demo_min_label);
+                maxLabel = getContext().getString(R.string.demo_max_label);
+            }
             minMaxLabelSize = Math.max(paint.measureText(minLabel), paint.measureText(maxLabel));
             float minMaxHeight = mTextOffset + mThumbHalfHeight + mTextSize / 3;
             canvas.drawText(minLabel, 0, minMaxHeight, paint);
@@ -653,8 +668,15 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             // give text a bit more space here so it doesn't get cut off
             int offset = PixelUtil.dpToPx(getContext(), TEXT_LATERAL_PADDING_IN_DP);
 
-            String minText = String.valueOf(getSelectedMinValue());
-            String maxText = String.valueOf(getSelectedMaxValue());
+            String minText;
+            String maxText;
+            if (formatNumber != null) {
+                minText = formatNumber.formatNumber(getSelectedMinValue());
+                maxText = formatNumber.formatNumber(getSelectedMaxValue());
+            } else {
+                minText = String.valueOf(getSelectedMinValue());
+                maxText = String.valueOf(getSelectedMaxValue());
+            }
             float minTextWidth = paint.measureText(minText) + offset;
             float maxTextWidth = paint.measureText(maxText) + offset;
 

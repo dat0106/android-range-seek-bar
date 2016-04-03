@@ -43,6 +43,21 @@ public class DemoActivity extends Activity {
         List<Integer[]> customeBar  = new ArrayList<>();
         customeBar.add(new Integer[]{30, 45});
         rangeSeekBar.setCustomBar(customeBar);
+        rangeSeekBar.setFormatNumber(new RangeSeekBar.FormatNumber() {
+            @Override
+            public String formatNumber(Number number) {
+                long value = number.longValue()*1000;
+                long second = (value / 1000) % 60;
+                long minute = (value / (1000 * 60)) % 60;
+                long hour = (value / (1000 * 60 * 60)) % 24;
+
+                if(hour==0){
+                    return String.format("%02d:%02d", minute, second);
+                } else {
+                    return String.format("%02d:%02d:%02d", hour, minute, second);
+                }
+            }
+        });
         rangeSeekBar.setSelectedMinValue(20);
         rangeSeekBar.setSelectedMaxValue(88);
 
