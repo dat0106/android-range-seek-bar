@@ -38,7 +38,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
-import android.widget.ImageView;
 
 import org.florescu.android.util.BitmapUtil;
 import org.florescu.android.util.PixelUtil;
@@ -60,7 +59,7 @@ import java.util.List;
  * @author Alex Florescu (alex@florescu.org)
  * @author Michael Keppler (bananeweizen@gmx.de)
  */
-public class RangeSeekBar<T extends Number> extends ImageView {
+public class RangeSeekBar<T extends Number> extends android.support.v7.widget.AppCompatImageView {
 
     private List<T[]> customBar = new ArrayList<>();
     /**
